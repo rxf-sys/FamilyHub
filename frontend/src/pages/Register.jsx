@@ -1,5 +1,5 @@
 // src/pages/Register.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { AlertCircle } from 'lucide-react';
@@ -10,13 +10,21 @@ const Register = () => {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'parent' // Standardrolle
   });
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { register } = useAuth();
+  const { register, isAuthenticated, error } = useAuth();
   const navigate = useNavigate();
+  
+  // Umleitung, falls der Benutzer bereits angemeldet ist
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,13 +65,10 @@ const Register = () => {
     
     try {
       // Registrierungsdaten ohne confirmPassword senden
-      const { firstName, lastName, email, password } = formData;
-      const result = await register({ firstName, lastName, email, password });
+      const { firstName, lastName, email, password, role } = formData;
+      const result = await register({ firstName, lastName, email, password, role });
       
-      if (result.success) {
-        // Bei erfolgreicher Registrierung zum Dashboard navigieren
-        navigate('/dashboard');
-      } else {
+      if (!result.success) {
         setFormError(result.error || 'Registrierung fehlgeschlagen');
       }
     } catch (error) {
@@ -89,14 +94,14 @@ const Register = () => {
           </p>
         </div>
         
-        {formError && (
+        {(formError || error) && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <AlertCircle className="h-5 w-5 text-red-400" />
               </div>
               <div className="ml-3">
-                <p className="text-sm text-red-700">{formError}</p>
+                <p className="text-sm text-red-700">{formError || error}</p>
               </div>
             </div>
           </div>
@@ -170,9 +175,23 @@ const Register = () => {
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Passwort bestätigen"
               />
+            </div>
+            <div>
+              <label htmlFor="role" className="sr-only">Rolle</label>
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+              >
+                <option value="parent">Elternteil</option>
+                <option value="child">Kind</option>
+                <option value="other">Sonstiges</option>
+              </select>
             </div>
           </div>
 

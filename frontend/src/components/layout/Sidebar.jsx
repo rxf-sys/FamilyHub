@@ -1,5 +1,7 @@
-import React from 'react';
+// src/components/layout/Sidebar.jsx
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -9,15 +11,49 @@ import {
   FileText,
   Settings,
   Users,
-  Home
+  Home,
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react';
+import api from '../../api/api';
 
 const Sidebar = () => {
   const location = useLocation();
+  const { currentUser } = useAuth();
+  const [families, setFamilies] = useState([]);
+  const [expandedFamily, setExpandedFamily] = useState(null);
+  const [loading, setLoading] = useState(false);
   
   // Prüfen, ob der aktuelle Pfad mit dem Navigationspfad übereinstimmt
   const isActivePath = (path) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
+  };
+  
+  // Familien des aktuellen Benutzers laden
+  useEffect(() => {
+    if (currentUser) {
+      loadFamilies();
+    }
+  }, [currentUser]);
+  
+  const loadFamilies = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get('/families');
+      setFamilies(response.data.data || []);
+    } catch (error) {
+      console.error('Fehler beim Laden der Familien:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const toggleFamilyExpansion = (familyId) => {
+    if (expandedFamily === familyId) {
+      setExpandedFamily(null);
+    } else {
+      setExpandedFamily(familyId);
+    }
   };
   
   // Navigation-Items
@@ -96,6 +132,61 @@ const Sidebar = () => {
             </Link>
           ))}
           
+          {/* Familien-Abschnitt */}
+          {families.length > 0 && (
+            <>
+              <div className="my-4 border-t border-gray-200"></div>
+              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                Meine Familien
+              </p>
+              
+              {families.map(family => (
+                <div key={family.id || family._id}>
+                  <button
+                    onClick={() => toggleFamilyExpansion(family.id || family._id)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                  >
+                    <div className="flex items-center">
+                      <Users className="mr-3 w-5 h-5 text-gray-500" />
+                      <span>{family.name}</span>
+                    </div>
+                    {expandedFamily === (family.id || family._id) ? (
+                      <ChevronDown className="w-4 h-4 text-gray-500" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4 text-gray-500" />
+                    )}
+                  </button>
+                  
+                  {expandedFamily === (family.id || family._id) && (
+                    <div className="ml-8 space-y-1 mt-1">
+                      <Link
+                        to={`/family/${family.id || family._id}/calendar`}
+                        className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      >
+                        <Calendar className="mr-2 w-4 h-4 text-gray-500" />
+                        Kalender
+                      </Link>
+                      <Link
+                        to={`/family/${family.id || family._id}/shopping`}
+                        className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      >
+                        <ShoppingCart className="mr-2 w-4 h-4 text-gray-500" />
+                        Einkaufslisten
+                      </Link>
+                      <Link
+                        to={`/family/${family.id || family._id}/members`}
+                        className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      >
+                        <Users className="mr-2 w-4 h-4 text-gray-500" />
+                        Mitglieder
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </>
+          )}
+          
           {/* Trennlinie */}
           <div className="my-4 border-t border-gray-200"></div>
           
@@ -123,9 +214,20 @@ const Sidebar = () => {
         </nav>
       </div>
       <div className="p-4 border-t border-gray-200">
-        <p className="text-xs text-gray-500">
-          © {new Date().getFullYear()} FamilyHub
-        </p>
+        <div className="flex items-center space-x-3">
+          <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 font-semibold">
+            {currentUser?.firstName ? currentUser.firstName.charAt(0) : ''}
+            {currentUser?.lastName ? currentUser.lastName.charAt(0) : ''}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-gray-900 truncate">
+              {currentUser?.firstName} {currentUser?.lastName}
+            </p>
+            <p className="text-xs text-gray-500 truncate">
+              {currentUser?.email}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

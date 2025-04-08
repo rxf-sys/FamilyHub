@@ -1,5 +1,5 @@
-// src/App.js
-import React, { lazy, Suspense } from 'react';
+// src/App.jsx
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
@@ -16,18 +16,20 @@ import Dashboard from './pages/Dashboard';
 import Calendar from './pages/Calendar';
 import ShoppingLists from './pages/ShoppingLists';
 import ShoppingListDetail from './pages/ShoppingListDetail';
-import ShoppingListForm from './components/shopping/ShoppingListForm';
 import MealPlanner from './pages/MealPlanner';
 import Medications from './pages/Medications';
 import Documents from './pages/Documents';
 
-// Neue Seiten
+// Benutzer und Einstellungen
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import FamilyManagement from './pages/FamilyManagement';
 
 // 404 Seite
 import NotFound from './pages/NotFound';
+
+// Formular-Komponenten
+import ShoppingListForm from './components/shopping/ShoppingListForm';
 
 // Weitere Komponenten mit Lazy Loading für Performanceoptimierung
 const MedicationForm = lazy(() => import('./components/medications/MedicationForm'));
@@ -36,6 +38,7 @@ const DocumentForm = lazy(() => import('./components/documents/DocumentForm'));
 const DocumentDetail = lazy(() => import('./components/documents/DocumentDetail'));
 const RecipeForm = lazy(() => import('./components/meals/RecipeForm'));
 const RecipeDetail = lazy(() => import('./components/meals/RecipeDetail'));
+const FamilyDetail = lazy(() => import('./pages/FamilyDetail'));
 
 // Lade-Komponente für Suspense
 const LoadingFallback = () => (
@@ -45,6 +48,12 @@ const LoadingFallback = () => (
 );
 
 function App() {
+  // API-Token in Request-Header einfügen bei App-Start
+  useEffect(() => {
+    // Diese Funktionalität wurde in die api.js ausgelagert
+    // Der API-Interceptor kümmert sich automatisch um den Token
+  }, []);
+
   return (
     <Router>
       <AuthProvider>
@@ -95,6 +104,10 @@ function App() {
                 
                 {/* Familienverwaltung */}
                 <Route path="/family" element={<FamilyManagement />} />
+                <Route path="/family/:id" element={<FamilyDetail />} />
+                <Route path="/family/:id/calendar" element={<Calendar />} />
+                <Route path="/family/:id/shopping" element={<ShoppingLists />} />
+                <Route path="/family/:id/members" element={<FamilyDetail />} />
               </Route>
             </Route>
             

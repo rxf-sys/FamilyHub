@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// src/pages/Login.jsx
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { AlertCircle } from 'lucide-react';
 
@@ -11,8 +12,17 @@ const Login = () => {
   const [formError, setFormError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { login } = useAuth();
+  const { login, isAuthenticated, error } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Umleitung, falls der Benutzer bereits angemeldet ist
+  useEffect(() => {
+    if (isAuthenticated) {
+      const { from } = location.state || { from: { pathname: '/dashboard' } };
+      navigate(from);
+    }
+  }, [isAuthenticated, navigate, location]);
 
   // Formular-Änderungshandler
   const handleChange = (e) => {
@@ -46,10 +56,7 @@ const Login = () => {
     try {
       const result = await login(formData);
       
-      if (result.success) {
-        // Bei erfolgreicher Anmeldung zum Dashboard navigieren
-        navigate('/dashboard');
-      } else {
+      if (!result.success) {
         setFormError(result.error || 'Anmeldung fehlgeschlagen');
       }
     } catch (error) {
@@ -75,11 +82,14 @@ const Login = () => {
           </p>
         </div>
         
-        {formError && (
+        {(formError || error) && (
           <div className="bg-red-50 border-l-4 border-red-400 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <AlertCircle className="h-5 w-5 text-red-400" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-red-700">{formError || error}</p>
               </div>
             </div>
           </div>
