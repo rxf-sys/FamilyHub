@@ -1,108 +1,180 @@
-# FamilyHub: Die All-in-One Familienmanagement-Plattform
+# FamilyHub Backend
+
+Das Backend der FamilyHub-Anwendung, einer All-in-One-Plattform für Familienmanagement.
 
 ## Überblick
-FamilyHub ist eine webbasierte Anwendung, die verschiedene Alltagshelfer in einer einzigen, intuitiven Benutzeroberfläche zusammenführt. Die Plattform richtet sich an Familien und Einzelpersonen, die ihren Alltag effizienter gestalten möchten, indem sie wichtige Funktionen wie Einkaufsplanung, Terminkoordination, Mahlzeitenplanung und Dokumentenverwaltung an einem zentralen Ort vereint.
 
-## Hauptfunktionen
+FamilyHub ist eine umfassende Lösung für Familienorganisation und -verwaltung. Das Backend stellt die API-Endpunkte für alle Funktionen der Anwendung bereit, darunter Benutzerverwaltung, Familienkalender, Einkaufslisten, Mahlzeitenplanung, Medikamentenverwaltung und Dokumentenorganisation.
 
-### 1. Dashboard
-- **Personalisierte Übersicht**: Zeigt die wichtigsten Tagesinformationen auf einen Blick
-- **Wetter-Widget**: Aktuelle Wettervorhersage und Tagesempfehlungen
-- **Verkehrs-Updates**: Aktuelle Verkehrslage für häufig genutzte Routen
-- **Nachrichten-Feed**: Personalisierte Nachrichtenauswahl basierend auf Nutzerinteressen
-- **Anstehende Termine**: Visualisierung der nächsten Termine aus dem Familienkalender
-- **Aufgaben des Tages**: To-Do-Liste mit täglichen Aufgaben
-- **Erinnerungen**: Anstehende Medikamenteneinnahmen und wichtige Erinnerungen
+## Funktionen
 
-### 2. Intelligenter Einkaufsplaner
-- **Rezeptdatenbank**: Sammlung von Rezepten mit automatischer Erstellung von Einkaufslisten
-- **Angebotsintegration**: Automatische Erfassung von Angeboten lokaler Geschäfte
-- **Bestandsverwaltung**: Inventarsystem für Vorräte mit Ablaufdaten
-- **Gemeinsame Listen**: Möglichkeit, Einkaufslisten mit Familienmitgliedern zu teilen
-- **Automatische Sortierung**: Intelligente Sortierung der Einkaufsliste nach Supermarktlayout
+- **Authentifizierung**: Benutzerregistrierung, Login, Profilmanagement
+- **Familien**: Verwaltung von Familien und Familienmitgliedern
+- **Kalender**: Gemeinsamer Familienkalender mit Terminen und Erinnerungen
+- **Einkaufslisten**: Erstellung und Verwaltung von Einkaufslisten
+- **Mahlzeitenplaner**: Rezeptverwaltung und Mahlzeitenplanung
+- **Medikamenten-Manager**: Verwaltung von Medikamenten und Einnahmeplänen
+- **Dokumentenorganisator**: Sichere Speicherung und Kategorisierung von Dokumenten
+- **Dashboard**: Zentrale Übersicht aller wichtigen Informationen
 
-### 3. Familienkalender
-- **Gemeinsame Termine**: Zentrale Verwaltung aller Familientermine
-- **Farbcodierung**: Verschiedene Farben für unterschiedliche Familienmitglieder oder Terminarten
-- **Erinnerungen**: Push-Benachrichtigungen und E-Mail-Erinnerungen für anstehende Termine
-- **Aufgabenzuweisung**: Möglichkeit, Familienmitgliedern Aufgaben zuzuweisen
-- **Wiederholungsfunktion**: Einrichtung regelmäßiger Termine und Aktivitäten
-- **Integration**: Synchronisation mit gängigen Kalenderdiensten (Google, Apple, Outlook)
+## Technischer Stack
 
-### 4. Mahlzeitenplaner
-- **Wöchentliche Planung**: Erstellung von Mahlzeitenplänen für die gesamte Woche
-- **Nährwertanalyse**: Detaillierte Nährwertinformationen für jede Mahlzeit
-- **Vorschläge**: KI-basierte Vorschläge basierend auf Vorlieben und Ernährungszielen
-- **Automatische Einkaufsliste**: Direkte Übernahme der benötigten Zutaten in die Einkaufsliste
-- **Diät-Tracking**: Unterstützung verschiedener Ernährungsweisen (vegetarisch, vegan, glutenfrei etc.)
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Datenbank**: MongoDB mit Mongoose ODM
+- **Authentifizierung**: JWT (JSON Web Tokens)
+- **Dateiuploads**: Multer
+- **Logging**: Winston
+- **Validierung**: MongoDB Schema-Validierung
 
-### 5. Medikamenten-Manager
-- **Medikamentenübersicht**: Zentrale Verwaltung aller Medikamente der Familie
-- **Dosierungsplan**: Individuelle Einnahmepläne mit Dosierungsangaben
-- **Erinnerungssystem**: Push-Benachrichtigungen zur Einnahme
-- **Bestandsverwaltung**: Überwachung der verfügbaren Medikamente mit Nachbestellerinnerungen
-- **Medikamentenhistorie**: Protokollierung der Einnahmen für Arztbesuche
+## Installation
 
-### 6. Dokumentenorganisator
-- **Sichere Speicherung**: Verschlüsselte Speicherung wichtiger Familiendokumente
-- **Kategorisierung**: Intelligente Organisation nach Dokumenttypen
-- **Suchfunktion**: Schnelles Auffinden von Dokumenten durch Volltextsuche
-- **Erinnerungen**: Benachrichtigungen für ablaufende Dokumente (z.B. Ausweise, Versicherungen)
-- **Freigabeoptionen**: Sichere Möglichkeit, Dokumente mit ausgewählten Personen zu teilen
+### Voraussetzungen
 
-## Technische Anforderungen
+- Node.js (v14 oder höher)
+- MongoDB (v4 oder höher)
+- npm oder yarn
 
-### Frontend
-- **Responsive Design**: Optimale Darstellung auf allen Geräten (Desktop, Tablet, Smartphone)
-- **Intuitive Benutzeroberfläche**: Einfache Navigation zwischen den verschiedenen Modulen
-- **Personalisierbare Widgets**: Anpassbare Dashboard-Elemente
-- **Offline-Funktionalität**: Grundlegende Funktionen auch ohne Internetverbindung
+### Schritte
 
-### Backend
-- **Sichere Datenspeicherung**: Verschlüsselte Datenbank für sensible Informationen
-- **API-Integrationen**: Schnittstellen zu Wetter-, Verkehrs-, Nachrichtendiensten
-- **Kalender-Synchronisation**: Bidirektionale Synchronisation mit gängigen Kalenderdiensten
-- **Cloud-Infrastruktur**: Skalierbare Lösung für Dokumentenspeicherung und -verwaltung
+1. Repository klonen:
+   ```bash
+   git clone https://github.com/dein-username/familyhub-backend.git
+   cd familyhub-backend
+   ```
 
-### Sicherheit
-- **Zwei-Faktor-Authentifizierung**: Erhöhte Sicherheit für den Zugriff
-- **Rollenbasierte Zugriffssteuerung**: Unterschiedliche Berechtigungen für Familienmitglieder
-- **Ende-zu-Ende-Verschlüsselung**: Für Dokumente und sensible persönliche Daten
-- **Regelmäßige Backups**: Automatische Sicherung aller Daten
+2. Abhängigkeiten installieren:
+   ```bash
+   npm install
+   ```
 
-## Umsetzungsphasen
+3. Konfigurationsdatei erstellen:
+   ```bash
+   cp .env.example .env
+   ```
 
-### Phase 1: Kernfunktionen
-- Dashboard mit grundlegenden Widgets
-- Einfacher Familienkalender
-- Grundlegende Einkaufslisten-Funktionalität
+4. Umgebungsvariablen in der `.env`-Datei anpassen, besonders:
+   - `MONGO_URI`: MongoDB-Verbindungsstring
+   - `JWT_SECRET`: Sicherer Schlüssel für JWT
+   - API-Schlüssel für externe Dienste (optional)
 
-### Phase 2: Erweiterung
-- Mahlzeitenplaner mit Nährwertangaben
-- Integration lokaler Angebote in den Einkaufsplaner
-- Erweiterte Kalenderfunktionen
+5. Server starten:
+   ```bash
+   npm run dev
+   ```
 
-### Phase 3: Vollständige Integration
-- Medikamenten-Manager
-- Dokumentenorganisator
-- Komplette API-Integrationen für Echtzeitdaten
+Der Server läuft standardmäßig auf Port 5000 und kann über `http://localhost:5000` erreicht werden.
 
-### Phase 4: Verfeinerung und Optimierung
-- KI-basierte Vorschläge und Automatisierungen
-- Erweiterte Analyse persönlicher Daten
-- Performance-Optimierung
+## API-Dokumentation
 
-## Vorteile
+### Authentifizierung
 
-- **Zeitersparnis**: Alle wichtigen Alltagsfunktionen in einer einzigen Anwendung
-- **Verbesserte Koordination**: Einfachere Abstimmung unter Familienmitgliedern
-- **Stressreduktion**: Weniger Planungsaufwand durch automatisierte Prozesse
-- **Papierloses Management**: Digitale Verwaltung aller wichtigen Dokumente
-- **Gesundheitsförderung**: Unterstützung bei ausgewogener Ernährung und Medikamentenmanagement
+- `POST /api/auth/register` - Neuen Benutzer registrieren
+- `POST /api/auth/login` - Benutzer anmelden
+- `GET /api/auth/profile` - Profilinformationen abrufen
+- `PUT /api/auth/profile` - Profil aktualisieren
+- `PUT /api/auth/change-password` - Passwort ändern
 
-## Monetarisierungsmöglichkeiten
+### Familien
 
-- **Freemium-Modell**: Grundfunktionen kostenlos, erweiterte Funktionen kostenpflichtig
-- **Familienabonnements**: Monatliche oder jährliche Gebühr für Familienzugang
-- **Partnerschaften**: Kooperationen mit lokalen Geschäften für Angebotsintegrationen
-- **White-Label-Lösung**: Anpassbare Version für Unternehmen und Organisationen
+- `GET /api/families` - Alle Familien des Benutzers abrufen
+- `GET /api/families/:id` - Familie nach ID abrufen
+- `POST /api/families` - Neue Familie erstellen
+- `PUT /api/families/:id` - Familie aktualisieren
+- `DELETE /api/families/:id` - Familie löschen
+- `POST /api/families/:id/members` - Mitglied zur Familie hinzufügen
+- `DELETE /api/families/:id/members/:memberId` - Mitglied aus Familie entfernen
+
+### Kalender
+
+- `GET /api/events` - Termine abrufen
+- `GET /api/events/:id` - Termin nach ID abrufen
+- `POST /api/events` - Neuen Termin erstellen
+- `PUT /api/events/:id` - Termin aktualisieren
+- `DELETE /api/events/:id` - Termin löschen
+
+### Einkaufslisten
+
+- `GET /api/shopping` - Alle Einkaufslisten abrufen
+- `GET /api/shopping/:id` - Einkaufsliste nach ID abrufen
+- `POST /api/shopping` - Neue Einkaufsliste erstellen
+- `PUT /api/shopping/:id` - Einkaufsliste aktualisieren
+- `DELETE /api/shopping/:id` - Einkaufsliste löschen
+- `POST /api/shopping/:id/items` - Artikel zur Liste hinzufügen
+- `PUT /api/shopping/:listId/items/:itemId` - Artikel aktualisieren
+- `DELETE /api/shopping/:listId/items/:itemId` - Artikel entfernen
+
+### Mahlzeiten und Rezepte
+
+- `GET /api/meals/recipes` - Rezepte abrufen
+- `GET /api/meals/recipes/:id` - Rezept nach ID abrufen
+- `POST /api/meals/recipes` - Neues Rezept erstellen
+- `PUT /api/meals/recipes/:id` - Rezept aktualisieren
+- `DELETE /api/meals/recipes/:id` - Rezept löschen
+- `GET /api/meals/plan` - Mahlzeitenplan abrufen
+- `POST /api/meals/plan/meals` - Mahlzeit zum Plan hinzufügen
+- `PUT /api/meals/plan/meals/:id` - Mahlzeit aktualisieren
+- `DELETE /api/meals/plan/meals/:id` - Mahlzeit löschen
+- `POST /api/meals/recipes/add-to-shopping-list` - Rezeptzutaten zur Einkaufsliste hinzufügen
+
+### Medikamente
+
+- `GET /api/medications` - Alle Medikamente abrufen
+- `GET /api/medications/:id` - Medikament nach ID abrufen
+- `POST /api/medications` - Neues Medikament erstellen
+- `PUT /api/medications/:id` - Medikament aktualisieren
+- `DELETE /api/medications/:id` - Medikament löschen
+- `POST /api/medications/:id/logs` - Einnahmeprotokoll hinzufügen
+- `PUT /api/medications/:id/inventory` - Bestand aktualisieren
+- `GET /api/medications/low-inventory` - Medikamente mit niedrigem Bestand abrufen
+
+### Dokumente
+
+- `GET /api/documents` - Alle Dokumente abrufen
+- `GET /api/documents/:id` - Dokument nach ID abrufen
+- `POST /api/documents` - Neues Dokument hochladen
+- `PUT /api/documents/:id` - Dokument aktualisieren
+- `DELETE /api/documents/:id` - Dokument löschen
+- `GET /api/documents/:id/download` - Dokument herunterladen
+
+### Dashboard
+
+- `GET /api/dashboard` - Dashboard-Daten abrufen
+- `GET /api/dashboard/widgets/config` - Widget-Konfiguration abrufen
+- `PUT /api/dashboard/widgets/config` - Widget-Konfiguration aktualisieren
+- `GET /api/dashboard/weather` - Wetterdaten abrufen
+- `GET /api/dashboard/traffic` - Verkehrsdaten abrufen
+- `GET /api/dashboard/news` - Nachrichten-Feed abrufen
+
+## Entwicklung
+
+### Projektstruktur
+
+```
+familyhub-backend/
+│
+├── controllers/       # Controller für die Geschäftslogik
+├── middleware/        # Express Middleware
+├── models/            # Mongoose Datenmodelle
+├── routes/            # API-Routen
+├── utils/             # Hilfsfunktionen
+├── uploads/           # Verzeichnis für Dateiuploads
+├── logs/              # Log-Dateien
+├── .env               # Umgebungsvariablen
+└── server.js          # Server-Einstiegspunkt
+```
+
+### Verfügbare Skripte
+
+- `npm start` - Server starten
+- `npm run dev` - Server mit Nodemon für Entwicklung starten
+- `npm test` - Tests ausführen
+- `npm run lint` - Code-Linting durchführen
+
+## Lizenz
+
+MIT
+
+## Autor
+
+rxf-sys - FamilyHub
